@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import pet from '@frontendmasters/pet';
 import Carousel from './Carousel';
+import ErrorBoundaries from './ErrorBoundaries'
 
 const Details = (props) => {
   const [animalDetails, setAnimalDetails] = useState({
@@ -47,4 +48,10 @@ const Details = (props) => {
   )
 }
 
-export default Details
+export default function DetailsWithErrorBoundaries(props) {
+  return (
+    <ErrorBoundaries>
+      <Details {...props} />
+    </ErrorBoundaries>
+  )
+}
