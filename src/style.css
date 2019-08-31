@@ -161,12 +161,13 @@ header {
   display: inline-block;
   margin: 15px;
   cursor: pointer;
-  border: 2px solid #333;
+  border: 2px solid #ad343e;
+  opacity: 0.6;
 }
 
 .carousel-smaller > img.active {
-  border-color: #ad343e;
-  opacity: 0.6;
+  border-color: #333;
+  opacity: 1;
 }
 
 .search-params label {

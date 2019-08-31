@@ -20,6 +20,8 @@ const SearchParams = () => {
       setBreeds(breedsArray)
     }
 
+    // for combining more states into one use selectors
+
     requestBreeds()
 
   }, [animal, setBreed, setBreeds])
