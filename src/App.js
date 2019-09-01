@@ -1,13 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { render } from 'react-dom'
 import { Router, Link } from '@reach/router'
 import SearchParams from './SearchParams'
 import Details from './Details';
+import ThemeContext from './ThemeContext'
 
 const App = () => {
-
+  // we don't need to use hooks here, we can pass the object to theme
+  // provider like so: value=({buttonA: 'red', buttonB: 'blue'})
+  // we pass it then with <ThemeContext.Consumer>
+  // that creates an react element
+  const themeHook = useState('peru')
   return (
     <React.StrictMode>
+      <ThemeContext.Provider value={themeHook} >
       <div>
         <header>
           <Link to='/' >Adopt Me!</Link>
@@ -17,6 +23,7 @@ const App = () => {
           <Details path='/details/:id' />
         </Router>
       </div>
+      </ThemeContext.Provider>
     </React.StrictMode>
   )
 };

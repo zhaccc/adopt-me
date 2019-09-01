@@ -1,7 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import pet from '@frontendmasters/pet';
+import {navigate} from '@reach/router';
+import Modal from './Modal';
 import Carousel from './Carousel';
-import ErrorBoundaries from './ErrorBoundaries'
+import ErrorBoundaries from './ErrorBoundaries';
+import ThemeContext from './ThemeContext';
 
 const Details = (props) => {
   const [animalDetails, setAnimalDetails] = useState({
@@ -11,8 +14,11 @@ const Details = (props) => {
     description: null,
     media: null,
     breed: null,
+    url: null,
     loading: true
   })
+  const [theme] = useContext(ThemeContext)
+  const [showModal, setShowModal] = useState(false)
 
   useEffect(() => {
     pet.animal(props.id)
@@ -24,6 +30,7 @@ const Details = (props) => {
           description: animal.description,
           media: animal.photos,
           breed: animal.breeds.primary,
+          url: animal.url,
           loading: false
         })
       }, console.error) // eslint-disable-line no-console
@@ -33,6 +40,9 @@ const Details = (props) => {
     return <h1>Loading...</h1>
   }
 
+  const toggleModal = () => setShowModal(!showModal)
+  const adopt = () => navigate(animalDetails.url)
+
   const {name, animal, breed, location, description, media} = animalDetails
 
   return (
@@ -41,8 +51,21 @@ const Details = (props) => {
       <div>
         <h1>{name}</h1>
         <h2>{`${animal} - ${breed} - ${location}`}</h2>
-        <button>Adopt {name}</button>
+        <button onClick={toggleModal} style={{backgroundColor: theme}}>Adopt {name}</button>
         <p>{description}</p>
+        {
+          showModal ? (
+            <Modal>
+              <div>
+                <h1>Would you like to adopt {name}?</h1>
+                <div className='buttons'>
+                  <button style={{backgroundColor: theme}} onClick={adopt}>Yes</button>
+                  <button style={{backgroundColor: theme}} onClick={toggleModal}>No, I am a monster</button>
+                </div>
+              </div>
+            </Modal>
+          ) : null
+        }
       </div>
     </div>
   )
